@@ -8,15 +8,15 @@ w = load_workbook("data.xlsx")
 
 sheet = w.active
 
-fichier = str(input("Nom du fichier image?"))
+fichier = str(input("Name of the image file?"))
 
-titre = str(input("Quel est le titre du graphique?(question skipable)"))
+titre = str(input("What is the name of the graph? (skippable)"))
 
-titrey = str(input("Nom de l'axe y"))
+titrey = str(input("Name of y ?(skippable)"))
 
-titrex = str(input("Nom de l'axe x"))
+titrex = str(input("Name of x ?(skippable)"))
 
-gg = str(input("Mettre les grilles?(o/n)"))
+gg = str(input("Put the grid? (y/n)"))
 
 t = 2
 
