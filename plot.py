@@ -1,7 +1,5 @@
 import matplotlib.pyplot as plt
 
-from PIL import Image
-
 from openpyxl import load_workbook
 
 w = load_workbook("data.xlsx")
