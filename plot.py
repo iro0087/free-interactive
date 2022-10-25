@@ -82,7 +82,7 @@ fig, ax = plt.subplots()
 
 ax.imshow(img, extent=[-1, r_max, 0, r_max])
 
-if gg == "o":
+if gg == "y":
 
     plt.grid()
 
