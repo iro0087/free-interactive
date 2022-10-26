@@ -12,8 +12,6 @@ from tkinter import Tk, Label, Button, Entry
 
 import sys
 
-colorlist = ["red", "black", "yellow", "purple", "blue", "green", "pink", "white", "orange"]
-
 def quit():
 
     sys.exit()
