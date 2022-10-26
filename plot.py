@@ -158,7 +158,7 @@ t2 = 0
 
 lyref = []
 
-while t2 < really / len(lx):
+while t2 < len(colorl) / len(lx):
 
     lyref.append(0)
 
