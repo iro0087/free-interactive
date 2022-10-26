@@ -1,14 +1,8 @@
-#!usr/bin python3 
-
-import matplotlib
-
-matplotlib.use("TkAgg")
-
 import matplotlib.pyplot as plt
 
 from openpyxl import load_workbook
 
-from tkinter import Tk, Label, Button, Entry
+from tkinter import *
 
 import sys
 
@@ -40,8 +34,6 @@ def fun():
 
     lx = []
 
-    passe = 0
-
     ly = []
 
     ly2 = []
@@ -54,55 +46,45 @@ def fun():
 
     numx = t
 
-    t = 1
+    t = 2
 
-    while sheet.cell(row=1, column=t2).value != None or t2 == 1:
+    while sheet.cell(row=numx, column=t2).value != None or t2 == 1:
 
-        if t2 == 1 and t > 1:
+        if t2 == 1:
 
-            if sheet.cell(row=t, column=t2).value != None:
-
-                lx.append(sheet.cell(row=t, column=t2).value)
+            lx.append(sheet.cell(row=t, column=t2).value)
 
         if t2 > 1:
 
-            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None and passe == 0:
+            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None:
 
                 ly.append(sheet.cell(row=t, column=t2).value)
 
-                passe = 1
-
             else:
 
-                if sheet.cell(row=t, column=t2).value != None and t > 1:
+                if sheet.cell(row=t, column=t2).value != None:
 
                     colorl.append(sheet.cell(row=t, column=t2).value)
-                    
-                    t2 += 1
 
-                    t = 1
+        if sheet.cell(row=t + 1, column=t2).value == None:
 
-        if sheet.cell(row=t, column=t2).value == None:
-
-            if sheet.cell(row=t, column=1).value != None and t2 > 1 and passe == 0 and t > 1:
+            if sheet.cell(row=t, column=1).value != None and t2 > 1:
 
                 ly.append("#")
 
-                passe = 1
+                t += 1
 
             else:
 
-                if t2 == 1:
+                t2 += 1
 
-                    t2 += 1
+                t = 1
 
-                    t = 1
+                if sheet.cell(row=t + 1, column=t2).value == None and sheet.cell(row=1, column=t2).value != None:
 
-        passe = 0
+                    ly.append("#")
 
         t += 1
-
-    print(ly, len(ly), lx)
 
     really = len(ly)
 
@@ -121,8 +103,6 @@ def fun():
             lx2.append(lx[t])
 
         if t + 1 == len(lx):
-
-            print(lx2)
 
             lx3.append(lx2)
 
@@ -192,6 +172,8 @@ def fun():
 
         t2 += 1
 
+    print(lx, lyref, really)
+
     plt.scatter(lx, lyref, marker="", color=colorl[t])
 
     t2 = 0
@@ -215,6 +197,8 @@ def fun():
         else:
 
             phry = sheet.cell(row=1, column=t + 2).value
+
+            print(lx3[t], ly2)
 
             while t2 < len(ly2):
 
