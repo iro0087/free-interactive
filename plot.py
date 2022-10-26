@@ -1,8 +1,22 @@
+#!usr/bin python3 
+
+import matplotlib
+
+matplotlib.use("TkAgg")
+
 import matplotlib.pyplot as plt
 
 from openpyxl import load_workbook
 
-from tkinter import *
+from tkinter import Tk, Label, Button, Entry
+
+import sys
+
+colorlist = ["red", "black", "yellow", "purple", "blue", "green", "pink", "white", "orange"]
+
+def quit():
+
+    sys.exit()
 
 def fun():
 
@@ -28,6 +42,8 @@ def fun():
 
     lx = []
 
+    passe = 0
+
     ly = []
 
     ly2 = []
@@ -40,45 +56,55 @@ def fun():
 
     numx = t
 
-    t = 2
+    t = 1
 
-    while sheet.cell(row=numx, column=t2).value != None or t2 == 1:
+    while sheet.cell(row=1, column=t2).value != None or t2 == 1:
 
-        if t2 == 1:
+        if t2 == 1 and t > 1:
 
-            lx.append(sheet.cell(row=t, column=t2).value)
+            if sheet.cell(row=t, column=t2).value != None:
+
+                lx.append(sheet.cell(row=t, column=t2).value)
 
         if t2 > 1:
 
-            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None:
+            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None and passe == 0:
 
                 ly.append(sheet.cell(row=t, column=t2).value)
 
+                passe = 1
+
             else:
 
-                if sheet.cell(row=t, column=t2).value != None:
+                if sheet.cell(row=t, column=t2).value != None and t > 1:
 
                     colorl.append(sheet.cell(row=t, column=t2).value)
+                    
+                    t2 += 1
 
-        if sheet.cell(row=t + 1, column=t2).value == None:
+                    t = 1
 
-            if sheet.cell(row=t, column=1).value != None and t2 > 1:
+        if sheet.cell(row=t, column=t2).value == None:
+
+            if sheet.cell(row=t, column=1).value != None and t2 > 1 and passe == 0 and t > 1:
 
                 ly.append("#")
 
-                t += 1
+                passe = 1
 
             else:
 
-                t2 += 1
+                if t2 == 1:
 
-                t = 1
+                    t2 += 1
 
-                if sheet.cell(row=t + 1, column=t2).value == None and sheet.cell(row=1, column=t2).value != None:
+                    t = 1
 
-                    ly.append("#")
+        passe = 0
 
         t += 1
+
+    print(ly, len(ly), lx)
 
     really = len(ly)
 
@@ -97,6 +123,8 @@ def fun():
             lx2.append(lx[t])
 
         if t + 1 == len(lx):
+
+            print(lx2)
 
             lx3.append(lx2)
 
@@ -166,8 +194,6 @@ def fun():
 
         t2 += 1
 
-    print(lx, lyref, really)
-
     plt.scatter(lx, lyref, marker="", color=colorl[t])
 
     t2 = 0
@@ -191,8 +217,6 @@ def fun():
         else:
 
             phry = sheet.cell(row=1, column=t + 2).value
-
-            print(lx3[t], ly2)
 
             while t2 < len(ly2):
 
@@ -238,7 +262,7 @@ def fun2():
 
     label3 = Label(fen, text="Name of x ?(skippable)")
 
-    label4 = Label(fen, text="Put the grid? (y/n)")
+    label4 = Label(fen, text="Put the grid? May increase accuracy. (y/n)")
 
     label5 = Label(fen, text="Do you want to display markers or words? (markers/words)")
 
@@ -280,6 +304,10 @@ def fun2():
 
     Button(fen, text="PROCEED", command=fun, bg="yellow").pack()
 
+    Label(fen, text="").pack()
+
+    Button(fen, text="TERMINATE", command=quit, bg="red").pack()
+
     fen.mainloop()
 
 fen = Tk()
@@ -292,7 +320,7 @@ label2 = Label(fen, text="Name of y ?(skippable)")
 
 label3 = Label(fen, text="Name of x ?(skippable)")
 
-label4 = Label(fen, text="Put the grid? (y/n)")
+label4 = Label(fen, text="Put the grid? May increase accuracy. (y/n)")
 
 label5 = Label(fen, text="Do you want to display markers or words? (markers/words)")
 
@@ -333,5 +361,9 @@ label5.pack()
 varm.pack()
 
 Button(fen, text="PROCEED", command=fun, bg="yellow").pack()
+
+Label(fen, text="").pack()
+
+Button(fen, text="TERMINATE", command=quit, bg="red").pack()
 
 fen.mainloop()
