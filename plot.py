@@ -1,10 +1,20 @@
+#!usr/bin python3 
+
+import matplotlib
+
+matplotlib.use("TkAgg")
+
 import matplotlib.pyplot as plt
 
 from openpyxl import load_workbook
 
-from tkinter import *
+import os
+
+from tkinter import Tk, Label, Button, Entry
 
 import sys
+
+lf = os.listdir(".")
 
 def quit():
 
@@ -18,6 +28,20 @@ def fun():
 
     fichier = varfich.get()
 
+    if lf.count(fichier + ".png") > 0:
+
+        fichier = fichier + ".png"
+
+    if lf.count(fichier + ".jpg") > 0:
+
+        fichier = fichier + ".jpg"
+
+    if lf.count(fichier) == 0:
+
+        erf = Label(fen, text="file does not exist", fg="red")
+
+        erf.pack()
+
     titre = vartitre.get()
 
     titrey = vary.get()
@@ -28,11 +52,17 @@ def fun():
 
     ygv = varm.get()
 
+    if ygv != "w" and ygv != "m":
+
+        Label(fen, text="Just put 'm' or 'w'", fg="red").pack()
+
     t = 2
 
     t2 = 1
 
     lx = []
+
+    passe = 0
 
     ly = []
 
@@ -46,43 +76,51 @@ def fun():
 
     numx = t
 
-    t = 2
+    t = 1
 
-    while sheet.cell(row=numx, column=t2).value != None or t2 == 1:
+    while sheet.cell(row=1, column=t2).value != None or t2 == 1:
 
-        if t2 == 1:
+        if t2 == 1 and t > 1:
 
-            lx.append(sheet.cell(row=t, column=t2).value)
+            if sheet.cell(row=t, column=t2).value != None:
+
+                lx.append(sheet.cell(row=t, column=t2).value)
 
         if t2 > 1:
 
-            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None:
+            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None and passe == 0:
 
                 ly.append(sheet.cell(row=t, column=t2).value)
 
+                passe = 1
+
             else:
 
-                if sheet.cell(row=t, column=t2).value != None:
+                if sheet.cell(row=t, column=t2).value != None and t > 1:
 
                     colorl.append(sheet.cell(row=t, column=t2).value)
+                    
+                    t2 += 1
 
-        if sheet.cell(row=t + 1, column=t2).value == None:
+                    t = 1
 
-            if sheet.cell(row=t, column=1).value != None and t2 > 1:
+        if sheet.cell(row=t, column=t2).value == None:
+
+            if sheet.cell(row=t, column=1).value != None and t2 > 1 and passe == 0 and t > 1:
 
                 ly.append("#")
 
-                t += 1
+                passe = 1
 
             else:
 
-                t2 += 1
+                if t2 == 1:
 
-                t = 1
+                    t2 += 1
 
-                if sheet.cell(row=t + 1, column=t2).value == None and sheet.cell(row=1, column=t2).value != None:
+                    t = 1
 
-                    ly.append("#")
+        passe = 0
 
         t += 1
 
@@ -172,8 +210,6 @@ def fun():
 
         t2 += 1
 
-    print(lx, lyref, really)
-
     plt.scatter(lx, lyref, marker="", color=colorl[t])
 
     t2 = 0
@@ -190,23 +226,23 @@ def fun():
 
         t2 = 0
 
-        if ygv == "markers":
+        phry = sheet.cell(row=1, column=t + 2).value
 
-            plt.scatter(lx3[t], ly2, marker="*", color=colorl[t])
+        while t2 < len(ly2):
 
-        else:
-
-            phry = sheet.cell(row=1, column=t + 2).value
-
-            print(lx3[t], ly2)
-
-            while t2 < len(ly2):
+            if ygv == "w":
 
                 plt.text(lx3[t][t2], ly2[t2], phry, rotation=90, color=colorl[t])
 
-                t2 += 1
+            else:
 
-            t2 = 0
+                if ygv == "m":
+
+                    plt.text(lx3[t][t2], ly2[t2], "*", color=colorl[t])
+
+            t2 += 1
+
+        t2 = 0
 
         pdp = pdp + len(lx3[t])
 
@@ -228,13 +264,17 @@ def fun():
 
     plt.xlabel(titrex)
 
-    plt.show()
+    Button(fen, text="RESTART", command=fun2, bg="green").pack()
 
-    fun2()
+    plt.show()
 
 def fun2():
 
     fen = Tk()
+
+    Label(fen, text="Make sure to match y, x values to your raw graph ;)", fg="green").pack()
+
+    Label(fen, text="").pack()
 
     label = Label(fen, text="Please enter the name of the image file")
 
@@ -246,7 +286,7 @@ def fun2():
 
     label4 = Label(fen, text="Put the grid? May increase accuracy. (y/n)")
 
-    label5 = Label(fen, text="Do you want to display markers or words? (markers/words)")
+    label5 = Label(fen, text="Do you want to display markers or words? (m/w)")
 
     label.pack()
 
@@ -294,6 +334,10 @@ def fun2():
 
 fen = Tk()
 
+Label(fen, text="Make sure to match y, x values to your raw graph ;)", fg="green").pack()
+
+Label(fen, text="").pack()
+
 label = Label(fen, text="Please enter the name of the image file")
 
 label1 = Label(fen, text="What is the name of the graph? (skippable)")
@@ -304,7 +348,7 @@ label3 = Label(fen, text="Name of x ?(skippable)")
 
 label4 = Label(fen, text="Put the grid? May increase accuracy. (y/n)")
 
-label5 = Label(fen, text="Do you want to display markers or words? (markers/words)")
+label5 = Label(fen, text="Do you want to display markers or words? (m/w)")
 
 label.pack()
 
