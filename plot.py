@@ -234,13 +234,13 @@ def fun():
 
             if ygv == "w":
 
-                plt.text(lx3[t][t2], ly2[t2], phry, rotation=90, color=colorl[t])
+                plt.text(lx3[t][t2], ly2[t2], phry, rotation=90, color=colorl[t], clip_on=True)
 
             else:
 
                 if ygv == "m":
 
-                    plt.text(lx3[t][t2], ly2[t2], "*", color=colorl[t])
+                    plt.text(lx3[t][t2], ly2[t2], "*", color=colorl[t], clip_on=True)
 
             t2 += 1
 
