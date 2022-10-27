@@ -85,6 +85,8 @@ def fun():
             if sheet.cell(row=t, column=t2).value != None:
 
                 lx.append(sheet.cell(row=t, column=t2).value)
+                
+                lx[-1] = str(lx[-1])
 
         if t2 > 1:
 
