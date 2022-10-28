@@ -204,11 +204,11 @@ def fun():
 
         else:
 
-            r_max1 = len(lx) 
+            r_max1 = len(lx) - 1
 
     else:
 
-        r_max2 = len(ly)
+        r_max2 = len(ly) - 1
 
         if len(xmax.get()) > 0:
 
@@ -216,7 +216,7 @@ def fun():
 
         else:
 
-            r_max1 = len(lx)
+            r_max1 = len(lx) - 1
 
     img = plt.imread(fichier)
 
