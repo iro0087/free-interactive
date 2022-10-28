@@ -204,7 +204,7 @@ def fun():
 
         else:
 
-            r_max1 = len(lx) - 1
+            r_max1 = len(lx) - 1 
 
     else:
 
