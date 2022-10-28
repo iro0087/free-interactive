@@ -208,7 +208,7 @@ def fun():
 
     else:
 
-        r_max2 = len(ly) - 1
+        r_max2 = len(lydemo) - 1
 
         if len(xmax.get()) > 0:
 
