@@ -288,7 +288,13 @@ def fun():
 
             if ygv == "w":
 
-                plt.text(lx3[t][t2], ly2[t2], phry, rotation=90, color=colorl[t], clip_on=True)
+                if r_max2 == ly2[t2]:
+
+                    plt.text(lx3[t][t2], ly2[t2] - 0.35, phry, rotation=90, color=colorl[t], clip_on=True)
+
+                else:
+
+                    plt.text(lx3[t][t2], ly2[t2], phry, rotation=90, color=colorl[t], clip_on=True)
 
             else:
 
