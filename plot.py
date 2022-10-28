@@ -16,6 +16,8 @@ import sys
 
 lf = os.listdir(".")
 
+nbrstr = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
 def quit():
 
     sys.exit()
@@ -52,6 +54,14 @@ def fun():
 
     ygv = varm.get()
 
+    if len(xmax.get()) > 0:
+
+        xmax2 = float(xmax.get())
+
+    if len(ymax.get()):
+
+        ymax2 = float(ymax.get())
+
     if ygv != "w" and ygv != "m":
 
         Label(fen, text="Just put 'm' or 'w'", fg="red").pack()
@@ -68,29 +78,41 @@ def fun():
 
     ly2 = []
 
+    lydemo = []
+
     colorl = []
 
-    while sheet.cell(row=t, column=1).value != None:
+    while sheet.cell(row=t, column=1).value != None and passe == 0:
 
-        t += 1
+        if sheet.cell(row=t, column=1).value == "#y":
+
+            passe = 1
+
+        else:
+
+            t += 1
 
     numx = t
 
     t = 1
 
+    passe = 0
+
     while sheet.cell(row=1, column=t2).value != None or t2 == 1:
 
         if t2 == 1 and t > 1:
 
-            if sheet.cell(row=t, column=t2).value != None:
+            if sheet.cell(row=t, column=t2).value != None and t < numx:
 
                 lx.append(sheet.cell(row=t, column=t2).value)
-                
-                lx[-1] = str(lx[-1])
+
+            if sheet.cell(row=t, column=t2).value != None and t > numx:
+
+                lydemo.append(sheet.cell(row=t, column=t2).value)
 
         if t2 > 1:
 
-            if type(sheet.cell(row=t, column=t2).value) != str and sheet.cell(row=t, column=t2).value != None and passe == 0:
+            if t > 1 and t < numx and sheet.cell(row=t, column=t2).value != None and passe == 0:
 
                 ly.append(sheet.cell(row=t, column=t2).value)
 
@@ -108,7 +130,7 @@ def fun():
 
         if sheet.cell(row=t, column=t2).value == None:
 
-            if sheet.cell(row=t, column=1).value != None and t2 > 1 and passe == 0 and t > 1:
+            if sheet.cell(row=t, column=1).value != None and t2 > 1 and passe == 0 and t > 1 and t < numx: 
 
                 ly.append("#")
 
@@ -169,50 +191,82 @@ def fun():
         t2 += 1
 
     maxy = 0
-
+    
     t = 0
 
-    while t + 1 < len(ly):
+    if len(lydemo) == 0:
 
-        if ly[t] > ly[t - 1]:
+        r_max2 = ymax2
 
-            maxy = ly[t] + 1
+        if len(xmax.get()) > 0:
 
-        t += 1
+            r_max1 = xmax2
 
-    t = 0
+        else:
 
-    if maxy > len(lx):
-
-        r_max = maxy
+            r_max1 = len(lx) 
 
     else:
 
-        r_max = len(lx)
+        r_max2 = len(ly)
+
+        if len(xmax.get()) > 0:
+
+            r_max1 = xmax2
+
+        else:
+
+            r_max1 = len(lx)
 
     img = plt.imread(fichier)
 
     fig, ax = plt.subplots()
 
-    ax.imshow(img, extent=[-1, r_max, 0, r_max])
+    ax.imshow(img, extent=[0, r_max1, 0, r_max2])
+
+    t2 = 0
+
+    lyref = []
+
+    if nbrstr.count(lx) == 0:
+
+        while t2 < really / len(colorl):   
+
+            lyref.append(0)
+
+            t2 += 1
+
+        plt.scatter(lx, lyref, marker="", color=colorl[t])
+
+    else:
+
+        while t2 < len(lx):
+
+            lx[t2] = float(lx[t2])
+
+            t2 += 1
+
+    t2 = 0
+
+    lxref = []
+
+    if len(lydemo) > 0:
+
+        while t2 < len(lydemo):   
+
+            lxref.append(0)
+
+            t2 += 1
+
+        plt.scatter(lxref, lydemo, marker="", color=colorl[t])
+
+    t2 = 0
 
     if gg == "y":
 
         plt.grid()
 
     pdp = 0
-
-    t2 = 0
-
-    lyref = []
-
-    while t2 < really / len(colorl):
-
-        lyref.append(0)
-
-        t2 += 1
-
-    plt.scatter(lx, lyref, marker="", color=colorl[t])
 
     t2 = 0
 
@@ -266,77 +320,11 @@ def fun():
 
     plt.xlabel(titrex)
 
-    Button(fen, text="RESTART", command=fun2, bg="green").pack()
+    ax.set_facecolor("grey")
 
     plt.show()
 
-def fun2():
-
-    fen = Tk()
-
-    Label(fen, text="Make sure to match y, x values to your raw graph ;)", fg="green").pack()
-
-    Label(fen, text="").pack()
-
-    label = Label(fen, text="Please enter the name of the image file")
-
-    label1 = Label(fen, text="What is the name of the graph? (skippable)")
-
-    label2 = Label(fen, text="Name of y ?(skippable)")
-
-    label3 = Label(fen, text="Name of x ?(skippable)")
-
-    label4 = Label(fen, text="Put the grid? May increase accuracy. (y/n)")
-
-    label5 = Label(fen, text="Do you want to display markers or words? (m/w)")
-
-    label.pack()
-
-    varfich = Entry(fen, width=30)
-
-    vartitre = Entry(fen, width=30)
-
-    vary = Entry(fen, width=30)
-
-    varx = Entry(fen, width=30)
-
-    vargrid = Entry(fen, width=30)
-
-    varm = Entry(fen, width=30)
-
-    varfich.pack()
-
-    label1.pack()
-
-    vartitre.pack()
-
-    label2.pack()
-
-    vary.pack()
-
-    label3.pack()
-
-    varx.pack()
-
-    label4.pack()
-
-    vargrid.pack()
-
-    label5.pack()
-
-    varm.pack()
-
-    Button(fen, text="PROCEED", command=fun, bg="yellow").pack()
-
-    Label(fen, text="").pack()
-
-    Button(fen, text="TERMINATE", command=quit, bg="red").pack()
-
-    fen.mainloop()
-
 fen = Tk()
-
-Label(fen, text="Make sure to match y, x values to your raw graph ;)", fg="green").pack()
 
 Label(fen, text="").pack()
 
@@ -387,6 +375,18 @@ vargrid.pack()
 label5.pack()
 
 varm.pack()
+
+Label(fen, text="What is xmax? (skippable if not number)").pack()
+
+xmax = Entry(fen, width=30)
+
+xmax.pack()
+
+Label(fen, text="What is ymax? (skippable if not number)").pack()
+
+ymax = Entry(fen, width=30)
+
+ymax.pack()
 
 Button(fen, text="PROCEED", command=fun, bg="yellow").pack()
 
