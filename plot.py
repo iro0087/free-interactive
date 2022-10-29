@@ -30,19 +30,23 @@ def fun():
 
     fichier = varfich.get()
 
-    if lf.count(fichier + ".png") > 0:
-
-        fichier = fichier + ".png"
-
-    if lf.count(fichier + ".jpg") > 0:
-
-        fichier = fichier + ".jpg"
-
     if lf.count(fichier) == 0:
 
-        erf = Label(fen, text="file does not exist", fg="red")
+        if lf.count(fichier + ".png") > 0:
 
-        erf.pack()
+            fichier = fichier + ".png"
+
+        else:
+
+            if lf.count(fichier + ".jpg") > 0:
+
+                fichier = fichier + ".jpg"
+
+            else:
+
+                erf = Label(fen, text="file does not exist", fg="red")
+
+                erf.pack()
 
     titre = vartitre.get()
 
