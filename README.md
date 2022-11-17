@@ -1,4 +1,4 @@
-# graph-interactive
+# open-interactive
 Transform a picture from a graph into an interractive one with matplotlib.
 In fact the picture given can be whatever you want with a correct resolution.
 To add markers or words, give their values in the left corner of the xlsx file as you see 
